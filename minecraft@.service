@@ -1,0 +1,53 @@
+# /etc/systemd/system/minecraft@.service
+# Source: https://github.com/agowa338/MinecraftSystemdUnit/
+# License: MIT
+[Unit]
+Description=Minecraft Server %i
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/minecraft/%i
+Type=exec
+SyslogIdentifier=java
+User=minecraft
+Group=minecraft
+
+## Security Rules for Minecraft Server
+
+NoNewPrivileges=yes
+# Users Database is not available for within the unit, only root and minecraft is available, everybody else is nobody
+PrivateUsers=yes 
+PrivateDevices=yes
+# Read only mapping of /usr /boot and /etc
+ProtectSystem=full
+# /home, /root and /run/user seem to be empty from within the unit. It is recommended to enable this setting for all long-running services (in particular network-facing ones).
+ProtectHome=yes
+# /proc/sys, /sys, /proc/sysrq-trigger, /proc/latency_stats, /proc/acpi, /proc/timer_stats, /proc/fs and /proc/irq will be read-only within the unit. It is recommended to turn this on for most services.
+# Implies MountFlags=slave
+ProtectKernelTunables=yes
+# It is recommended to turn this on for most services.
+ProtectClock=yes
+# It is recommended to turn this on for most services.
+ProtectKernelLogs=yes
+# Block module system calls, also /usr/lib/modules. It is recommended to turn this on for most services that do not need special file systems or extra kernel modules to work
+# Implies NoNewPrivileges=yes
+ProtectKernelModules=yes 
+# It is hence recommended to turn this on for most services.
+# Implies MountAPIVFS=yes
+ProtectControlGroups=yes 
+
+ExecStart=/bin/bash ./run-systemd.sh
+ExecReload=/bin/bash ./rcon.sh "reload"
+ExecStop=/bin/bash ./stop-systemd.sh
+
+KillSignal=SIGINT
+TimeoutStopSec=60s
+
+Restart=on-failure
+RestartSec=20s
+
+StandardInput=null
+
+[Install]
+WantedBy=multi-user.target
+
