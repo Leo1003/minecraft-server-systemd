@@ -1,0 +1,10 @@
+[Unit]
+Description=Schedule Minecraft Server Backup for %i
+
+[Timer]
+OnCalendar=daily
+Persistent=yes
+
+[Install]
+WantedBy=timers.target
+
