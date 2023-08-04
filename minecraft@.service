@@ -11,6 +11,7 @@ Type=exec
 SyslogIdentifier=java
 User=minecraft
 Group=minecraft
+UMask=0002
 
 ## Security Rules for Minecraft Server
 
