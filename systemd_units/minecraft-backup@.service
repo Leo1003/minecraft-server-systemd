@@ -1,5 +1,6 @@
 [Unit]
 Description=Minecraft Server Backup for %i
+ConditionPathIsDirectory=/opt/minecraft/%i
 
 [Service]
 WorkingDirectory=/opt/minecraft/%i

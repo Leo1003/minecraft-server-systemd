@@ -3,6 +3,7 @@
 # License: MIT
 [Unit]
 Description=Minecraft Server %i
+ConditionPathIsDirectory=/opt/minecraft/%i
 After=network.target
 
 [Service]
